@@ -93,7 +93,6 @@ class MenuController extends BaseController
         }
     ]
      */
-
     public function getMenuItems(): Collection
     {
         $items = MenuItem::all()->groupBy('parent_id');
@@ -101,6 +100,7 @@ class MenuController extends BaseController
         $parentItems = $items->first();
 
         $itemsWithChildren = collect([]);
+
 
         foreach ($parentItems as $key => $parentItem) {
             $itemWithChildren = $this->constructItemWithChildren(
@@ -113,6 +113,8 @@ class MenuController extends BaseController
         }
 
         return $itemsWithChildren;
+
+
     }
 
     private function constructItemWithChildren(
@@ -122,7 +124,7 @@ class MenuController extends BaseController
     ): MenuItem {
         foreach ($children as $key => $child) {
             $this->constructItemWithChildren(
-                $items,
+               $items,
                 $child,
                 $this->getItemChildren($items, $child->id)
             );
